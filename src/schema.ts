@@ -1,37 +1,40 @@
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import typeDefs from "./schema.graphql";
-
-type Link = {
-    id: string;
-    url: string;
-    description: string;
-}
+import { GraphQLContext } from "./context";
+import { Link } from "./generated/prisma/client";
 
 // placeholder links
-const links: Link[] = [{
-    id: 'link-0',
-    url: 'www.bruh.com',
-    description: 'ay dingus'
-}]
+// type Link = {
+//     id: string;
+//     url: string;
+//     description: string;
+// }
+// const links: Link[] = [{
+//     id: 'link-0',
+//     url: 'www.bruh.com',
+//     description: 'ay dingus'
+// }]
 
 const resolvers = {
     Query: {
         info: () => "Test API for Hacker News",
-        feed: () => links,
+        feed: async (parent: unknown, args: {}, context: GraphQLContext) => {
+            return context.prisma.link.findMany();
+        },
     },
     Mutation: {
-        post: (parent: unknown, args: { description: string, url: string }) => {
-            let newId = links.length
+        post: async (parent: unknown,
+                    args: { description: string, url: string },
+                    context: GraphQLContext) => {
+            const newLink = await context.prisma.link.create({
+                data: {
+                    url: args.url,
+                    description: args.description
+                }
+            });
 
-            const newLink: Link = {
-                id: `link-${newId++}`,
-                url: args.url,
-                description: args.description
-            }
-
-            links.push(newLink)
             return newLink
-        }
+        },
     }
     // This is technically optional, GraphQL resolves it automatically
     // Link: {
