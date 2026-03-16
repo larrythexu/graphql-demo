@@ -15,6 +15,8 @@
   "devDependencies": {
     "@prisma/adapter-better-sqlite3": "^7.5.0",
     "@prisma/client": "^7.5.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.5.0",
     "prisma": "^7.5.0",
     "ts-node": "^10.9.2",
@@ -24,10 +26,12 @@
   },
   "dependencies": {
     "@graphql-tools/schema": "^10.0.31",
+    "bcryptjs": "^3.0.3",
     "dotenv": "^17.3.1",
     "fastify": "^5.8.2",
     "graphql": "^16.13.1",
     "graphql-helix": "^1.13.0",
-    "graphql-import-node": "^0.0.5"
+    "graphql-import-node": "^0.0.5",
+    "jsonwebtoken": "^9.0.3"
   }
 }
